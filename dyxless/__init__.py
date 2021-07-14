@@ -1,19 +1,31 @@
+import json
+
 from flask import Flask
+from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 db = SQLAlchemy()
+mail = Mail()
+
+with open("dyxless/config.json") as config_file:
+    config_data = json.load(config_file)
 
 
 def create_app():
     app = Flask("__name__", template_folder="dyxless/templates")
 
-    app.config["SECRET_KEY"] = "monastyrka-says-helloworld"
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
+    main_settings = config_data["main_settings"]
+    app.config.update(main_settings)
 
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db_settings = config_data["db_settings"]
+    app.config.update(db_settings)
+
+    mail_settings = config_data["mail_settings"]
+    app.config.update(mail_settings)
 
     db.init_app(app)
+    mail.init_app(app)
 
     login_manager = LoginManager()
     login_manager.login_view = "auth.login"
@@ -32,5 +44,9 @@ def create_app():
     from .main import main as main_blueprint
 
     app.register_blueprint(main_blueprint)
+
+    from .mails import mails as mails_blueprint
+
+    app.register_blueprint(mails_blueprint)
 
     return app

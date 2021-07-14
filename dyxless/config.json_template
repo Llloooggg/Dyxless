@@ -1,0 +1,17 @@
+{
+    "main_settings": {
+        "SECRET_KEY": "some-very-secret-key",
+        "SQLALCHEMY_TRACK_MODIFICATIONS": false
+    },
+    "db_settings": {
+        "SQLALCHEMY_DATABASE_URI": "sqlite:///db.sqlite"
+    },
+    "mail_settings": {
+        "MAIL_SERVER": "smtp.gmail.com",
+        "MAIL_PORT": 465,
+        "MAIL_USE_TLS": false,
+        "MAIL_USE_SSL": true,
+        "MAIL_USERNAME": "yourmail@gmail.com",
+        "MAIL_PASSWORD": "yourpass"
+    }
+}
