@@ -1,9 +1,21 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import current_user, login_user, logout_user
+import datetime
 
-from .models import User
+from flask import (
+    Blueprint,
+    render_template,
+    redirect,
+    url_for,
+    request,
+    flash,
+    current_app,
+)
+from werkzeug.security import check_password_hash
+from flask_login import current_user, login_user, logout_user
+from itsdangerous import URLSafeTimedSerializer
+
 from . import db
+from .models import User
+from .mails import send_async_email
 
 auth = Blueprint("auth", __name__)
 
@@ -25,10 +37,20 @@ def login():
         user = User.query.filter_by(email=email).first()
 
         if not user or not check_password_hash(user.password, password):
-            flash("Please check your login details and try again.")
+            flash("Пожалуйста, проверьте введенные данные и попробуйте снова")
+            return redirect(url_for("auth.login"))
+        elif not user.is_confirmed:
+            flash(
+                "Аккаунт еще не активирован. Пожалуйста, проверьте вашу почту"
+            )
             return redirect(url_for("auth.login"))
 
         login_user(user, remember=remember)
+
+        user.last_login = datetime.datetime.now()
+
+        db.session.commit()
+
         return redirect(url_for("main.profile"))
 
 
@@ -43,25 +65,80 @@ def signup():
 
     elif request.method == "POST":
         email = request.form.get("email")
-        name = request.form.get("name")
+        username = request.form.get("username")
         password = request.form.get("password")
 
         user = User.query.filter_by(email=email).first()
 
         if user:
-            flash("Email address already exists")
+            flash("Указанная почта уже используется")
+            return redirect(url_for("auth.signup"))
+
+        user = User.query.filter_by(email=username).first()
+
+        if user:
+            flash("Указанное имя уже используется")
             return redirect(url_for("auth.signup"))
 
         new_user = User(
             email=email,
-            name=name,
-            password=generate_password_hash(password, method="sha256"),
+            password=password,
+            username=username,
         )
 
         db.session.add(new_user)
         db.session.commit()
 
+        token = generate_confirmation_token(new_user.email)
+        confirm_url = url_for(
+            "auth.confirm_email", token=token, _external=True
+        )
+
+        send_async_email(
+            subject="Подтверждение регистрации",
+            recipients=[new_user.email],
+            html=render_template(
+                "mail/confirmation_mail.html", confirm_url=confirm_url
+            ),
+        )
+
         return redirect(url_for("auth.login"))
+
+
+def generate_confirmation_token(email):
+    serializer = URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
+    return serializer.dumps(
+        email, salt=current_app.config["SECURITY_PASSWORD_SALT"]
+    )
+
+
+def confirm_token(token, expiration=3600):
+    serializer = URLSafeTimedSerializer(current_app.config["SECRET_KEY"])
+    try:
+        email = serializer.loads(
+            token,
+            salt=current_app.config["SECURITY_PASSWORD_SALT"],
+            max_age=expiration,
+        )
+    except:
+        return False
+    return email
+
+
+@auth.route("/confirm/<token>")
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash("Ссылка подтверждения невалидна или устарела", "danger")
+    user = User.query.filter_by(email=email).first_or_404()
+    if user.is_confirmed:
+        flash("Аккаунт уже подтвержден", "success")
+    else:
+        user.is_confirmed = True
+        db.session.commit()
+        flash("Ваш аккаунт подвтержден!", "success")
+    return redirect(url_for("auth.login"))
 
 
 @auth.route("/logout")

@@ -1,7 +1,9 @@
 {
     "main_settings": {
         "SECRET_KEY": "some-very-secret-key",
-        "SQLALCHEMY_TRACK_MODIFICATIONS": false
+        "SECURITY_PASSWORD_SALT": "second-some-very-secret-key",
+        "SQLALCHEMY_TRACK_MODIFICATIONS": false,
+        "APP_EMAIL": "appsender@gmail.com
     },
     "db_settings": {
         "SQLALCHEMY_DATABASE_URI": "sqlite:///db.sqlite"
