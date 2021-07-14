@@ -1,3 +1,3 @@
-from dyxless import db, create_app
+from dyxless import app, db
 
-db.create_all(app=create_app())
+db.create_all(app=app)
