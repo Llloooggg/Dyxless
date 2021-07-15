@@ -1,10 +1,16 @@
 # Dyxless
 
-Based on [tutorial](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login) from DigitalOcean
+### Конфигурация
+Прежде всего необходимо создать файл **config.json** на основе приложенного шаблона
 
-### Database
-At first run **init_db.py** for database initialization
+### DB
+Для инициализации базы данных необходимо запустить 
+```
+python init_db.py
+``` 
 
-### Start app:  
-on Windows run
->**startserver.bat**
+### Запуск приложения:  
+На Windows запускать через
+```
+startserver.bat
+```
