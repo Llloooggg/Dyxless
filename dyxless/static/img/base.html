@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dyxless</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename = 'img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename = 'img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename = 'img/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename = '/site.webmanifest') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bulma.min.css') }}" rel="stylesheet"
+        type="text/css">
+    <script src="{{ url_for('static', filename = 'js/base.js') }}"></script>
+    <script src="https://kit.fontawesome.com/6bc4cd9a8e.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="navbar has-shadow is-fixed-top">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{{ url_for('main.index') }}">
+                    Dyxless
+                </a>
+
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarMain">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="navbarMain" class="navbar-menu">
+                <div class="navbar-end">
+                    {% if not current_user.is_authenticated %}
+                    <a href="{{ url_for('auth.login') }}" class="navbar-item">
+                        Войти
+                    </a>
+                    <span class="navbar-item">
+                        <a href="{{ url_for('auth.signup') }}" class="button is-success is-outlined">
+                            <strong>Зарегистрироваться</strong>
+                        </a>
+                    </span>
+                    {% else %}
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a href="{{ url_for('main.profile') }}" class="navbar-link">
+                            {{ current_user.username }}
+                        </a>
+
+                        <div class="navbar-dropdown is-right">
+                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
+                                Профиль
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                                Выйти
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, text in messages%}
+    <div class="notification {{ category }}">
+        <button class="delete"></button>
+        {{ text }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+</html>
