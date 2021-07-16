@@ -8,6 +8,7 @@ from flask import (
     request,
     flash,
     current_app,
+    Markup,
 )
 from werkzeug.security import check_password_hash
 from flask_login import current_user, login_user, logout_user
@@ -37,11 +38,12 @@ def login():
         user = User.query.filter_by(email=email).first()
 
         if not user or not check_password_hash(user.password, password):
-            flash("Пожалуйста, проверьте введенные данные и попробуйте снова")
+            flash("Неверный логин или пароль", "is-danger")
             return redirect(url_for("auth.login"))
         elif not user.is_confirmed:
             flash(
-                "Аккаунт еще не активирован. Пожалуйста, проверьте вашу почту"
+                "Аккаунт еще не активирован. Пожалуйста, проверьте вашу почту",
+                "is-warning",
             )
             return redirect(url_for("auth.login"))
 
@@ -71,13 +73,19 @@ def signup():
         user = User.query.filter_by(email=email).first()
 
         if user:
-            flash("Указанная почта уже используется")
+            login_url = url_for("auth.login")
+            flash(
+                Markup(
+                    f"Указанная почта уже используется. <a href='{login_url}'>Перейти к странице входа</a>"
+                ),
+                "is-danger",
+            )
             return redirect(url_for("auth.signup"))
 
         user = User.query.filter_by(email=username).first()
 
         if user:
-            flash("Указанное имя уже используется")
+            flash("Указанное имя уже используется", "is-danger")
             return redirect(url_for("auth.signup"))
 
         new_user = User(
@@ -100,6 +108,11 @@ def signup():
             html=render_template(
                 "mail/confirmation_mail.html", confirm_url=confirm_url
             ),
+        )
+
+        flash(
+            "На вашу почту была выслана ссылка для подтверждения регистрации",
+            "is-success",
         )
 
         return redirect(url_for("auth.login"))
@@ -130,14 +143,14 @@ def confirm_email(token):
     try:
         email = confirm_token(token)
     except:
-        flash("Ссылка подтверждения невалидна или устарела", "danger")
+        flash("Ссылка подтверждения невалидна или устарела", "is-danger")
     user = User.query.filter_by(email=email).first_or_404()
     if user.is_confirmed:
-        flash("Аккаунт уже подтвержден", "success")
+        flash("Аккаунт уже подтвержден", "is-success")
     else:
         user.is_confirmed = True
         db.session.commit()
-        flash("Ваш аккаунт подвтержден!", "success")
+        flash("Ваш аккаунт подвтержден!", "is-success")
     return redirect(url_for("auth.login"))
 
 

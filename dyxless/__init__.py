@@ -5,7 +5,11 @@ from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
-app = Flask("__name__", template_folder="dyxless/templates")
+app = Flask(
+    "__name__",
+    template_folder="dyxless/templates",
+    static_folder="dyxless/static",
+)
 db = SQLAlchemy()
 mail = Mail()
 

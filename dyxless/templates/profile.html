@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
-  Добро пожаловать, {{ current_user.username }}!
-</h1>
+<div class="container has-text-centered">
+  <section class="hero is-medium">
+    <div class="hero-body">
+      <p class="title">
+        Профиль
+      </p>
+      <p class="subtitle">
+        Добро пожаловать, {{ current_user.username }}!
+      </p>
+    </div>
+  </section>
+</div>
 {% endblock %}
