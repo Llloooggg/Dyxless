@@ -2,15 +2,15 @@
 
 {% block content %}
 
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Регистрация</h3>
-    <div class="container">
-        <section class="hero is-medium">
-            <form class="box"  method="POST" action="/signup">
+<section class="hero is-medium">
+    <div class="hero-body">
+        <div class="column is-4 is-offset-4">
+            <form class="box" method="POST" action="/signup">
+                <h3 class="title">Регистрация</h3>
                 <div class="field">
                     <label class="label">Email</label>
                     <p class="control has-icons-left">
-                        <input class="input" type="email" name="email" placeholder="yourmail@example.com" required>
+                        <input class="input" type="email" name="email" placeholder="you@mail.com" required>
                         <span class="icon is-small is-left">
                             <i class="fas fa-envelope"></i>
                         </span>
@@ -19,7 +19,7 @@
                 <div class="field">
                     <label class="label">Никнейм</label>
                     <p class="control has-icons-left">
-                        <input class="input" type="username" name="username" placeholder="YourUsername" required>
+                        <input class="input" type="username" name="username" placeholder="Username" required>
                         <span class="icon is-small is-left">
                             <i class="fas fa-user"></i>
                         </span>
@@ -36,8 +36,8 @@
                 </div>
                 <button class="button is-success is-outlined is-fullwidth">Зарегистрироваться</button>
             </form>
-        </section>
+        </div>
     </div>
-</div>
+</section>
 
 {% endblock %}

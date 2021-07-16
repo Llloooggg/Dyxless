@@ -30,6 +30,10 @@ mail.init_app(app)
 
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
+login_manager.login_message = (
+    "Вам необходимой войти, чтобы увидеть эту страницу"
+)
+login_manager.login_message_category = "is-warning"
 login_manager.init_app(app)
 
 from .models import User

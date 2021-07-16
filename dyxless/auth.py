@@ -76,7 +76,7 @@ def signup():
             login_url = url_for("auth.login")
             flash(
                 Markup(
-                    f"Указанная почта уже используется. <a href='{login_url}'>Перейти к странице входа</a>"
+                    f"Указанная почта уже используется.<br><a href='{login_url}'>Перейти к странице входа</a>"
                 ),
                 "is-danger",
             )

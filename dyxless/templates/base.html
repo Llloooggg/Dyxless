@@ -33,14 +33,18 @@
                 <div id="navbarMain" class="navbar-menu">
                     <div class="navbar-end">
                         {% if not current_user.is_authenticated %}
+                        {% if url_for(request.endpoint) != url_for('auth.login') %}
                         <a href="{{ url_for('auth.login') }}" class="navbar-item">
                             Войти
                         </a>
+                        {% endif %}
+                        {% if url_for(request.endpoint) != url_for('auth.signup') %}
                         <span class="navbar-item">
                             <a href="{{ url_for('auth.signup') }}" class="button is-success is-outlined">
                                 <strong>Зарегистрироваться</strong>
                             </a>
                         </span> 
+                        {% endif %}
                         {% else %}
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a href="{{ url_for('main.profile') }}" class="navbar-link">
@@ -66,9 +70,11 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, text in messages%}
-                <div class="notification {{ category }}">
-                    <button class="delete"></button>
-                    {{ text }}
+                <div class='column is-3 is-offset-9'>
+                    <div class="notification is-light {{ category }}">
+                        <button class="delete"></button>
+                        {{ text }}
+                    </div>
                 </div>
                 {% endfor %}
             {% endif %}
