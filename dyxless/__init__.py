@@ -1,3 +1,4 @@
+import os
 import json
 
 from flask import Flask
@@ -55,3 +56,6 @@ app.register_blueprint(main_blueprint)
 from .mails import mails as mails_blueprint
 
 app.register_blueprint(mails_blueprint)
+
+if not os.path.exists(app.config["SQLALCHEMY_DATABASE_URI"]):
+    db.create_all(app=app)
