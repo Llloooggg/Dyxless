@@ -1,0 +1,5 @@
+.notification{
+    position: fixed;
+    left: 75%;
+    z-index: 1;
+}

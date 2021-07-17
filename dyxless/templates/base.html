@@ -11,6 +11,7 @@
         <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename = 'img/favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename = 'img/favicon-16x16.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bulma.min.css') }}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/base.css') }}" rel="stylesheet" type="text/css">
         <script src="{{ url_for('static', filename = 'js/base.js') }}"></script>
         <script src="https://kit.fontawesome.com/6bc4cd9a8e.js" crossorigin="anonymous"></script>
     </head>
@@ -70,11 +71,9 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, text in messages%}
-                <div class='column is-3 is-offset-9'>
-                    <div class="notification is-light {{ category }}">
-                        <button class="delete"></button>
-                        {{ text }}
-                    </div>
+                <div class="notification is-light {{ category }}">
+                    <button class="delete"></button>
+                    {{ text }}
                 </div>
                 {% endfor %}
             {% endif %}
