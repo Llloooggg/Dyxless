@@ -12,5 +12,5 @@ python init_db.py
 ### Запуск приложения:  
 На Windows запускать через
 ```
-startserver.bat
+runscripts/startserverdev.bat
 ```
