@@ -200,4 +200,5 @@ def login():
 @auth.route("/logout")
 def logout():
     logout_user()
+    flash("Вы успешно вышли!", "is-success")
     return redirect(url_for("main.index"))
