@@ -10,11 +10,11 @@ python init_db.py
 ``` 
 
 ### Запуск приложения:  
-На Windows запускать через
+На Windows запускать через:
 ```
 runscripts/windows/startserverdev.bat
 ```
-На Linux через
+На Linux через:
 ```
-runscripts/linux/startserverdev.bat
+runscripts/linux/startserverdev.sh
 ```
