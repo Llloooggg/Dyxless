@@ -82,7 +82,7 @@ def signup():
             )
             return redirect(url_for("auth.signup"))
 
-        user = User.query.filter_by(email=username).first()
+        user = User.query.filter_by(username=username).first()
 
         if user:
             flash("Указанное имя уже используется", "is-danger")
