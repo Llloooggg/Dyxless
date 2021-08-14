@@ -26,6 +26,9 @@ app.config.update(db_settings)
 mail_settings = config_data["mail_settings"]
 app.config.update(mail_settings)
 
+auth_settings = config_data["auth_settings"]
+app.config.update(auth_settings)
+
 db.init_app(app)
 mail.init_app(app)
 

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero is-medium">
+    <div class="hero-body">
+        <div class="column is-4 is-offset-4">
+            <form class="box" method="POST" action="/resend_confirmation" >
+                <h3 class="title">Повторная отправка подтверждения регистрации</h3>
+                <div class="field">
+                    <label class="label">Введите email, который был указан при регистрации</label>
+                    <p class="control has-icons-left">
+                        <input class="input" type="email" name="email" placeholder="yourmail@example.com" required>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control">
+                        <button class="button is-success is-outlined is-fullwidth" type="submit">Отправить подтверждение</button>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

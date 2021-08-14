@@ -15,5 +15,8 @@
         "MAIL_USE_SSL": true,
         "MAIL_USERNAME": "yourmail@gmail.com",
         "MAIL_PASSWORD": "yourpass"
+    },
+    "auth_settings": {
+        "TOKEN_EXPIRATION": "3600"
     }
 }
