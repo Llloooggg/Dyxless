@@ -66,7 +66,7 @@ def signup():
         if user:
             flash(
                 Markup(
-                    f"Указанная почта уже используется<br><a href='{url_for('auth.login')}'>Перейти к странице входа</a>"
+                    f"Указанная почта уже используется. <a href='{url_for('auth.login')}'>Перейти к странице входа</a>"
                 ),
                 "is-danger",
             )
@@ -75,7 +75,10 @@ def signup():
         user = User.query.filter_by(username=username).first()
 
         if user:
-            flash("Указанное имя уже используется", "is-danger")
+            flash(
+                "Указанное имя уже используется. <a href='{url_for('auth.login')}'>Перейти к странице входа</a>",
+                "is-danger",
+            )
             return redirect(url_for("auth.signup"))
 
         new_user = User(
@@ -182,7 +185,7 @@ def login():
         elif not user.is_confirmed:
             flash(
                 Markup(
-                    f"Аккаунт еще не активирован. Пожалуйста, проверьте вашу почту<br><a href='{url_for('auth.resend_confirmation')}'>Повторная отправка подвтерждения регистрации</a>"
+                    f"Аккаунт еще не активирован. Пожалуйста, проверьте вашу почту. <a href='{url_for('auth.resend_confirmation')}'>Повторить отправку</a>"
                 ),
                 "is-warning",
             )

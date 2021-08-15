@@ -71,7 +71,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, text in messages%}
-                <div class="notification is-light {{ category }}">
+                <div class="notification is-light {{ category }} has-text-centered">
                     <button class="delete"></button>
                     {{ text }}
                 </div>
