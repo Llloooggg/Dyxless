@@ -6,7 +6,7 @@
 ### Запуск приложения
 На Windows запускать через:
 ```
-runscripts/windows/startserverdev.bat
+runscripts/windows/startserver.bat
 ```
 На Linux через:
 ```
