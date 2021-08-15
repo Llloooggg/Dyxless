@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  dyxless:
+    image: dyxless
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 5000:5000
+    working_dir: /dyxless
+    volumes: 
+      - ./:/dyxless
+    environment:
+      - FLASK_APP=dyxless
+    
