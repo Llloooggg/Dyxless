@@ -76,7 +76,7 @@ def signup():
                 Markup(
                     f"Указанная почта уже используется. <a href='{url_for('auth.login')}'>Перейти к странице входа</a>"
                 ),
-                "is-danger",
+                "is-warning",
             )
             return redirect(url_for("auth.signup"))
 
@@ -85,7 +85,7 @@ def signup():
         if user:
             flash(
                 "Указанное имя уже используется. <a href='{url_for('auth.login')}'>Перейти к странице входа</a>",
-                "is-danger",
+                "is-warning",
             )
             return redirect(url_for("auth.signup"))
 
@@ -158,12 +158,15 @@ def confirm_token(token, expiration):
 @auth.route("/confirm/<token>")
 def confirm_email(token):
     try:
-        email = confirm_token(token, current_app.config["TOKEN_EXPIRATION"])
+        email = confirm_token(
+            token, int(current_app.config["TOKEN_EXPIRATION"])
+        )
+        print(email)
     except:
         flash("Ссылка подтверждения невалидна или устарела", "is-danger")
     user = User.query.filter_by(email=email).first_or_404()
     if user.is_confirmed:
-        flash("Аккаунт уже подтвержден", "is-success")
+        flash("Аккаунт уже подтвержден", "is-warning")
     else:
         user.is_confirmed = True
         db.session.commit()
