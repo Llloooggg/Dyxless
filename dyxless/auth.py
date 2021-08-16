@@ -60,6 +60,14 @@ def signup():
         email = request.form.get("email")
         username = request.form.get("username")
         password = request.form.get("password")
+        password_confirmation = request.form.get("password_confirmation")
+
+        if password != password2:
+            flash(
+                "Пароли не совпадают",
+                "is-danger",
+            )
+            return redirect(url_for("auth.signup"))
 
         user = User.query.filter_by(email=email).first()
 
