@@ -13,4 +13,5 @@ services:
       - ./:/dyxless
     environment:
       - FLASK_APP=dyxless
+      - PORT=${PORT}
     
