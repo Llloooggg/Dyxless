@@ -62,7 +62,7 @@ def signup():
         password = request.form.get("password")
         password_confirmation = request.form.get("password_confirmation")
 
-        if password != password2:
+        if password != password_confirmation:
             flash(
                 "Пароли не совпадают",
                 "is-danger",
