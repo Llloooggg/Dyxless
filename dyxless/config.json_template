@@ -2,6 +2,7 @@
     "main_settings": {
         "SECRET_KEY": "some-very-secret-key",
         "SECURITY_PASSWORD_SALT": "second-some-very-secret-key",
+        "SERVER_NAME": "dyxless.herokuapp.com - only for prod deploy",
         "SQLALCHEMY_TRACK_MODIFICATIONS": false,
         "APP_EMAIL": "appsender@gmail.com
     },
