@@ -7,7 +7,7 @@
         "APP_EMAIL": "appsender@gmail.com
     },
     "db_settings": {
-        "SQLALCHEMY_DATABASE_URI": "sqlite:///db.sqlite"
+        "SQLALCHEMY_DATABASE_URI": "postgresql://ownername:pass@localhost/dyxless"
     },
     "mail_settings": {
         "MAIL_SERVER": "smtp.gmail.com",
