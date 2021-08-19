@@ -126,6 +126,13 @@ def resend_confirmation():
     elif request.method == "POST":
         email = request.form.get("email")
 
+        user = User.query.filter_by(email=email).first()
+        if not user or user.is_confirmed:
+            flash(
+                "Аккаунт уже подтвержден или не зарегистрирован", "is-warning"
+            )
+            return redirect(url_for("auth.login"))
+
         confirmation_email_sending = send_confirmation_email(email)
 
         if confirmation_email_sending:
@@ -157,14 +164,18 @@ def confirm_token(token, expiration):
 
 @auth.route("/confirm/<token>")
 def confirm_email(token):
-    try:
-        email = confirm_token(
-            token, int(current_app.config["TOKEN_EXPIRATION"])
+
+    email = confirm_token(token, int(current_app.config["TOKEN_EXPIRATION"]))
+    if not email:
+        flash(
+            Markup(
+                f"Ссылка подтверждения невалидна или устарела. <a href='{url_for('auth.resend_confirmation')}'>Повторить отправку</a>"
+            ),
+            "is-danger",
         )
-        print(email)
-    except:
-        flash("Ссылка подтверждения невалидна или устарела", "is-danger")
-    user = User.query.filter_by(email=email).first_or_404()
+        return redirect(url_for("auth.login"))
+
+    user = User.query.filter_by(email=email).first()
     if user.is_confirmed:
         flash("Аккаунт уже подтвержден", "is-warning")
     else:
